@@ -8,7 +8,7 @@
 <meta name="keywords" content="Tharindu Dilshan, Electrical Technician, Industrial Electrician, VFD, Motor Control, Panel Board, Sri Lanka Electrician">
 <meta name="author" content="Tharindu Dilshan">
 <link rel="canonical" href="https://dbt-dilshan.github.io/">
-<meta name="theme-color" content="#0a0a0a">
+<meta name="theme-color" content="#0b0d0e">
 <meta name="color-scheme" content="dark light">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -17,20 +17,17 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="Tharindu Dilshan | Industrial Electrical Technician">
 <meta property="og:description" content="Industrial Electrician & Electrical Installation and Maintenance Specialist based in Sri Lanka.">
-<meta property="og:image" content="assets/images/og-cover.jpg">
 <meta property="og:url" content="https://dbt-dilshan.github.io/">
 <meta property="og:locale" content="en_US">
 
 <!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Tharindu Dilshan | Industrial Electrical Technician">
 <meta name="twitter:description" content="Industrial Electrician & Electrical Installation and Maintenance Specialist based in Sri Lanka.">
-<meta name="twitter:image" content="assets/images/og-cover.jpg">
 
-<!-- Icons / PWA -->
-<link rel="icon" type="image/png" href="assets/icons/favicon.png">
-<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
-<link rel="manifest" href="manifest.json">
+<!-- Icon: inline SVG bolt so it always renders even without image assets -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23F59E0B'%3E%3Cpath d='M13 2 3 14h7l-1 8 11-14h-7z'/%3E%3C/svg%3E">
+
 
 <!-- Preconnect -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -38,7 +35,7 @@
 <link rel="preconnect" href="https://cdnjs.cloudflare.com">
 
 <!-- Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Share+Tech+Mono&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
 
 <!-- AOS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
@@ -49,73 +46,85 @@
 <style>
 /* =========================================================
    DESIGN TOKENS & THEME VARIABLES
-   Apple-inspired Liquid Glass UI with premium luxury aesthetic
+   Dark Industrial — carbon / brushed steel panels with amber signal accent
 ========================================================= */
 :root {
   /* Color Palette - Dark Theme (Default) */
-  --bg: #000000;
-  --bg-alt: #0a0a0a;
-  --surface: rgba(10, 10, 10, 0.52);
-  --surface-2: rgba(10, 10, 10, 0.32);
-  --glass: rgba(10, 10, 10, 0.48);
-  --glass-border: rgba(34, 197, 94, 0.18);
-  --glass-highlight: rgba(255, 255, 255, 0.06);
-  --border: rgba(34, 197, 94, 0.14);
-  --text: #FFFFFF;
-  --text-dim: #E5E5E5;
-  --text-faint: #999999;
-  --shadow: rgba(0, 0, 0, 0.60);
-  --shadow-strong: rgba(0, 0, 0, 0.75);
+  --bg: #0b0d0e;
+  --bg-alt: #131619;
+  --surface: rgba(19, 22, 25, 0.78);
+  --surface-2: rgba(19, 22, 25, 0.55);
+  --glass: rgba(17, 20, 22, 0.72);
+  --glass-border: rgba(245, 158, 11, 0.20);
+  --glass-highlight: rgba(255, 255, 255, 0.04);
+  --border: rgba(148, 158, 163, 0.18);
+  --text: #F2F3F4;
+  --text-dim: #C6CBCE;
+  --text-faint: #83898D;
+  --shadow: rgba(0, 0, 0, 0.65);
+  --shadow-strong: rgba(0, 0, 0, 0.80);
   --input-bg: rgba(255, 255, 255, 0.04);
-  --glass-blur: blur(32px) saturate(220%);
+  --glass-blur: blur(14px) saturate(140%);
 
-  /* Accent Colors - Green Premium */
-  --gold: #10B981;
-  --gold-light: #34D399;
-  --gold-soft: #6EE7B7;
-  --gold-dark: #059669;
-  --gold-glow: rgba(16, 185, 129, 0.15);
-  --gold-gradient: linear-gradient(135deg, #10B981 0%, #34D399 50%, #6EE7B7 100%);
+  /* Accent Colors - Industrial Amber (Signal / Hazard) */
+  --gold: #F59E0B;
+  --gold-light: #FBBF24;
+  --gold-soft: #FCD34D;
+  --gold-dark: #B45309;
+  --gold-glow: rgba(245, 158, 11, 0.18);
+  --gold-gradient: linear-gradient(135deg, #F59E0B 0%, #FBBF24 50%, #FCD34D 100%);
 
   /* Typography */
-  --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Rajdhani', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-body: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-  --font-mono: 'Space Mono', 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+  --font-mono: 'Share Tech Mono', 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
 
   /* Spacing & Sizing */
-  --radius: 20px;
-  --radius-lg: 24px;
+  --radius: 10px;
+  --radius-lg: 14px;
   --ease: cubic-bezier(0.34, 1.56, 0.64, 1);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Light Theme */
 [data-theme="light"] {
-  --bg: #FFFFFF;
-  --bg-alt: #f5f5f5;
-  --surface: rgba(255, 255, 255, 0.75);
-  --surface-2: rgba(255, 255, 255, 0.55);
-  --glass: rgba(255, 255, 255, 0.65);
-  --glass-border: rgba(34, 197, 94, 0.25);
+  --bg: #F1EFEA;
+  --bg-alt: #E7E3DB;
+  --surface: rgba(255, 255, 255, 0.80);
+  --surface-2: rgba(255, 255, 255, 0.60);
+  --glass: rgba(255, 255, 255, 0.72);
+  --glass-border: rgba(217, 119, 6, 0.28);
   --glass-highlight: rgba(255, 255, 255, 0.25);
-  --border: rgba(34, 197, 94, 0.20);
-  --text: #0a0a0a;
-  --text-dim: #3a4a6a;
-  --text-faint: #7a8aaa;
-  --shadow: rgba(0, 0, 0, 0.06);
-  --shadow-strong: rgba(0, 0, 0, 0.10);
+  --border: rgba(90, 84, 70, 0.18);
+  --text: #1A1815;
+  --text-dim: #4A463F;
+  --text-faint: #857F73;
+  --shadow: rgba(0, 0, 0, 0.08);
+  --shadow-strong: rgba(0, 0, 0, 0.14);
   --input-bg: rgba(10, 10, 10, 0.04);
-  --glass-blur: blur(32px) saturate(220%);
+  --glass-blur: blur(14px) saturate(140%);
 
-  --gold: #22C55E;
-  --gold-light: #4ADE80;
-  --gold-soft: #86EFAC;
-  --gold-dark: #15803D;
-  --gold-glow: rgba(34, 197, 94, 0.15);
-  --gold-gradient: linear-gradient(135deg, #22C55E 0%, #4ADE80 50%, #86EFAC 100%);
+  --gold: #D97706;
+  --gold-light: #F59E0B;
+  --gold-soft: #FCD34D;
+  --gold-dark: #92400E;
+  --gold-glow: rgba(217, 119, 6, 0.18);
+  --gold-gradient: linear-gradient(135deg, #D97706 0%, #F59E0B 50%, #FCD34D 100%);
 }
 
 /* Accent Palettes */
+[data-theme="dark"][data-palette="emerald"]{
+  --gold:#10B981; --gold-light:#34D399; --gold-soft:#6EE7B7; --gold-dark:#059669;
+  --gold-glow: rgba(16, 185, 129, 0.15);
+  --gold-gradient: linear-gradient(135deg, #10B981 0%, #34D399 50%, #6EE7B7 100%);
+  --glass-border: rgba(16, 185, 129, 0.20);
+}
+[data-theme="light"][data-palette="emerald"]{
+  --gold:#22C55E; --gold-light:#4ADE80; --gold-soft:#86EFAC; --gold-dark:#15803D;
+  --gold-glow: rgba(34, 197, 94, 0.15);
+  --gold-gradient: linear-gradient(135deg, #22C55E 0%, #4ADE80 50%, #86EFAC 100%);
+  --glass-border: rgba(34, 197, 94, 0.25); --border: rgba(34, 197, 94, 0.20);
+}
 [data-theme="dark"][data-palette="amber"]{
   --gold:#F59E0B; --gold-light:#FBBF24; --gold-soft:#FCD34D; --gold-dark:#B45309;
   --gold-glow: rgba(245, 158, 11, 0.15);
@@ -435,20 +444,64 @@ html[data-fontsize="lg"]{ font-size: 112%; }
   mask-image: radial-gradient(circle at center, black, transparent 75%);
 }
 .loader-core{ position:relative; width:110px; height:110px; display:flex; align-items:center; justify-content:center; }
-.loader-ring{ width:110px; height:110px; transform:rotate(-90deg); }
-.loader-ring circle{
-  fill:none; stroke: var(--gold); stroke-width:3; stroke-linecap:round;
-  stroke-dasharray: 264; stroke-dashoffset: 264;
-  filter: drop-shadow(0 0 12px var(--gold-glow));
-  animation: loaderSpin 1.6s var(--ease) infinite;
+.loader-sparks{ position:absolute; inset:0; width:110px; height:110px; }
+.loader-sparks .spark{
+  fill: var(--gold);
+  transform-origin: 50px 50px;
+  animation: sparkPulse 1.4s var(--ease) infinite;
+  opacity:0;
 }
-@keyframes loaderSpin{
-  0%{ stroke-dashoffset:264; }
-  50%{ stroke-dashoffset:40; }
-  100%{ stroke-dashoffset:264; }
+.loader-sparks .spark:nth-child(1){ animation-delay:.0s; }
+.loader-sparks .spark:nth-child(2){ animation-delay:.08s; }
+.loader-sparks .spark:nth-child(3){ animation-delay:.16s; }
+.loader-sparks .spark:nth-child(4){ animation-delay:.24s; }
+.loader-sparks .spark:nth-child(5){ animation-delay:.32s; }
+.loader-sparks .spark:nth-child(6){ animation-delay:.40s; }
+.loader-sparks .spark:nth-child(7){ animation-delay:.48s; }
+.loader-sparks .spark:nth-child(8){ animation-delay:.56s; }
+@keyframes sparkPulse{
+  0%{ opacity:0; transform:scale(.3); }
+  35%{ opacity:1; transform:scale(1.3); filter:drop-shadow(0 0 6px var(--gold)); }
+  70%{ opacity:0; transform:scale(.4); }
+  100%{ opacity:0; transform:scale(.3); }
 }
-.loader-percent{ font-family: var(--font-mono); font-size:1.1rem; color: var(--gold); position:absolute; }
+.loader-bolt{ position:relative; width:52px; height:52px; z-index:2; }
+.loader-bolt path{ stroke: var(--gold); stroke-width:1.4; stroke-linejoin:round; }
+.bolt-glow{
+  fill: var(--gold);
+  opacity:.55;
+  filter: blur(9px);
+  animation: boltCharge 1.4s var(--ease) infinite;
+}
+.bolt-draw{
+  fill: none;
+  stroke-dasharray: 58;
+  stroke-dashoffset: 58;
+  animation: boltDraw 1.4s var(--ease) infinite, boltFill 1.4s var(--ease) infinite;
+}
+@keyframes boltDraw{
+  0%{ stroke-dashoffset:58; }
+  55%{ stroke-dashoffset:0; }
+  100%{ stroke-dashoffset:0; }
+}
+@keyframes boltFill{
+  0%, 55%{ fill:none; }
+  75%{ fill: var(--gold-soft); }
+  100%{ fill: var(--gold); }
+}
+@keyframes boltCharge{
+  0%{ opacity:.25; transform:scale(.85); }
+  55%{ opacity:.35; transform:scale(.95); }
+  80%{ opacity:.85; transform:scale(1.25); }
+  100%{ opacity:.25; transform:scale(.85); }
+}
+.loader-percent{ font-family: var(--font-mono); font-size:1.1rem; color: var(--gold); position:absolute; bottom:-30px; }
 .loader-label{ font-family: var(--font-mono); letter-spacing:.3em; font-size:.7rem; color: var(--text-dim); }
+.loader-dots span{ animation: dotBlink 1.4s infinite; opacity:0; }
+.loader-dots span:nth-child(1){ animation-delay:0s; }
+.loader-dots span:nth-child(2){ animation-delay:.2s; }
+.loader-dots span:nth-child(3){ animation-delay:.4s; }
+@keyframes dotBlink{ 0%,100%{opacity:0;} 50%{opacity:1;} }
 .loader-bar-wrap{
   width: 200px;
   height: 3px;
@@ -524,11 +577,11 @@ input, textarea, select{ font-family:inherit; }
 }
 [data-theme="dark"] .navbar {
   background: rgba(0, 0, 0, 0.75);
-  border-bottom: 1px solid rgba(34, 197, 94, 0.08);
+  border-bottom: 1px solid rgba(245, 158, 11, 0.08);
 }
 [data-theme="light"] .navbar {
   background: rgba(255, 255, 255, 0.75);
-  border-bottom: 1px solid rgba(34, 197, 94, 0.12);
+  border-bottom: 1px solid rgba(245, 158, 11, 0.12);
 }
 .navbar.scrolled{
   padding: 10px 5%;
@@ -664,7 +717,7 @@ input, textarea, select{ font-family:inherit; }
   inset: 0;
   background: radial-gradient(
     circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-    rgba(34, 197, 94, 0.08) 0%,
+    rgba(245, 158, 11, 0.08) 0%,
     transparent 60%
   );
   opacity: 0;
@@ -683,11 +736,11 @@ input, textarea, select{ font-family:inherit; }
   border-radius: var(--radius);
   background: linear-gradient(
     135deg,
-    rgba(34, 197, 94, 0.06),
+    rgba(245, 158, 11, 0.06),
     transparent 40%,
-    rgba(34, 197, 94, 0.03),
+    rgba(245, 158, 11, 0.03),
     transparent 70%,
-    rgba(34, 197, 94, 0.05)
+    rgba(245, 158, 11, 0.05)
   );
   opacity: 0;
   transition: opacity 0.6s ease;
@@ -700,9 +753,9 @@ input, textarea, select{ font-family:inherit; }
 
 .glass-card:hover {
   transform: translateY(-8px) scale(1.02) perspective(800px);
-  border-color: rgba(34, 197, 94, 0.3);
+  border-color: rgba(245, 158, 11, 0.3);
   box-shadow: 
-    0 24px 60px rgba(34, 197, 94, 0.08),
+    0 24px 60px rgba(245, 158, 11, 0.08),
     0 12px 40px var(--shadow);
 }
 
@@ -715,7 +768,7 @@ input, textarea, select{ font-family:inherit; }
 [data-theme="light"] .glass-card::before {
   background: radial-gradient(
     circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-    rgba(34, 197, 94, 0.10) 0%,
+    rgba(245, 158, 11, 0.10) 0%,
     transparent 60%
   );
 }
@@ -734,14 +787,14 @@ input, textarea, select{ font-family:inherit; }
   background: var(--gold-gradient); 
   color:#0a0a0a; 
   font-weight:700; 
-  box-shadow: 0 8px 32px -6px rgba(16, 185, 129, .35);
+  box-shadow: 0 8px 32px -6px rgba(245, 158, 11, .35);
 }
 [data-theme="light"] .btn-primary {
   color: #0a0a0a;
 }
 .btn-primary:hover{ 
   transform: translateY(-4px); 
-  box-shadow: 0 14px 44px -6px rgba(16, 185, 129, .45); 
+  box-shadow: 0 14px 44px -6px rgba(245, 158, 11, .45); 
 }
 .btn-outline{ 
   border:1px solid var(--glass-border); 
@@ -931,7 +984,7 @@ input, textarea, select{ font-family:inherit; }
 }
 .skill-card:hover{
   transform: translateY(-8px) scale(1.02);
-  border-color: rgba(34, 197, 94, 0.3);
+  border-color: rgba(245, 158, 11, 0.3);
 }
 .skill-card i{
   font-size:2.4rem; color: var(--gold); margin-bottom:12px;
@@ -962,7 +1015,7 @@ input, textarea, select{ font-family:inherit; }
 }
 .service-card:hover{
   transform: translateY(-8px) scale(1.02);
-  border-color: rgba(34, 197, 94, 0.3);
+  border-color: rgba(245, 158, 11, 0.3);
 }
 .service-card i{
   font-size:2rem; color: var(--gold); margin-bottom:12px;
@@ -1006,18 +1059,18 @@ input, textarea, select{ font-family:inherit; }
 }
 .project-card:hover{
   transform: translateY(-8px) scale(1.01);
-  border-color: rgba(34, 197, 94, 0.3);
+  border-color: rgba(245, 158, 11, 0.3);
 }
 .project-thumb{
   width:100%; aspect-ratio: 16/9;
-  background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(34, 197, 94, 0.02));
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(245, 158, 11, 0.02));
   border-radius: var(--radius);
   display:flex; align-items:center; justify-content:center;
   margin-bottom:16px; font-size:3rem; color: var(--gold);
   transition: all .3s ease;
 }
 .project-card:hover .project-thumb{
-  background: linear-gradient(135deg, rgba(34, 197, 94, 0.15), rgba(34, 197, 94, 0.05));
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(245, 158, 11, 0.05));
   transform: scale(1.04);
 }
 .project-body h3{
@@ -1029,7 +1082,7 @@ input, textarea, select{ font-family:inherit; }
 }
 .project-tags span{
   font-family: var(--font-mono); font-size:.7rem; padding:4px 10px;
-  background: rgba(34, 197, 94, .12); color: var(--gold); border-radius:999px;
+  background: rgba(245, 158, 11, .12); color: var(--gold); border-radius:999px;
 }
 
 /* Certificates */
@@ -1045,13 +1098,13 @@ input, textarea, select{ font-family:inherit; }
 }
 .cert-card:hover{
   transform: translateY(-8px) scale(1.02);
-  border-color: rgba(34, 197, 94, 0.3);
+  border-color: rgba(245, 158, 11, 0.3);
 }
 .cert-card i{ font-size:2rem; color: var(--gold); }
 .cert-card span{ font-size:.9rem; font-weight:500; }
 .cert-overlay{
   position:absolute; inset:0; border-radius:inherit;
-  background: rgba(16, 185, 129, 0.1);
+  background: rgba(245, 158, 11, 0.1);
   backdrop-filter: blur(4px);
   display:flex; align-items:center; justify-content:center; gap:6px;
   color: var(--gold); font-size:.8rem; opacity:0;
@@ -1113,7 +1166,7 @@ input, textarea, select{ font-family:inherit; }
 }
 .contact-item:hover{
   transform: translateY(-4px);
-  border-color: rgba(34, 197, 94, 0.3);
+  border-color: rgba(245, 158, 11, 0.3);
 }
 .contact-item i{ font-size:1.8rem; color: var(--gold); margin-bottom:12px; }
 .contact-item h4{ font-size:.95rem; margin-bottom:8px; }
@@ -1145,9 +1198,9 @@ input, textarea, select{ font-family:inherit; }
   color: var(--text-faint);
 }
 .form-group input:focus, .form-group textarea:focus{
-  outline:none; background: rgba(34, 197, 94, 0.05);
+  outline:none; background: rgba(245, 158, 11, 0.05);
   border-color: var(--gold);
-  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
 }
 .form-group textarea{ resize:vertical; min-height:120px; }
 .form-group.invalid input, .form-group.invalid textarea{
@@ -1160,7 +1213,7 @@ input, textarea, select{ font-family:inherit; }
   padding:12px 16px; border-radius:10px; font-size:.85rem; margin-bottom:20px;
   text-align:center; display:none;
 }
-.form-status.success{ display:block; background: rgba(34, 197, 94, 0.1); color: var(--gold); }
+.form-status.success{ display:block; background: rgba(245, 158, 11, 0.1); color: var(--gold); }
 .form-status.error{ display:block; background: rgba(239, 68, 68, 0.1); color: #EF4444; }
 
 #submitBtn{
@@ -1168,11 +1221,11 @@ input, textarea, select{ font-family:inherit; }
   background: var(--gold-gradient); color: #0a0a0a; font-weight:700;
   border-radius:10px; cursor:pointer;
   transition: all .3s ease;
-  box-shadow: 0 8px 24px rgba(16, 185, 129, .2);
+  box-shadow: 0 8px 24px rgba(245, 158, 11, .2);
 }
 #submitBtn:hover:not(:disabled){
   transform: translateY(-2px);
-  box-shadow: 0 12px 32px rgba(16, 185, 129, .35);
+  box-shadow: 0 12px 32px rgba(245, 158, 11, .35);
 }
 #submitBtn.loading{
   opacity: .7; pointer-events:none;
@@ -1205,18 +1258,39 @@ input, textarea, select{ font-family:inherit; }
 .footer-col a:hover{ color: var(--gold); }
 .social-dock{
   display:flex; gap:12px; margin-top:16px;
+  flex-wrap:wrap;
 }
 .social-dock a{
-  width:40px; height:40px; border-radius:50%;
+  width:44px; height:44px; border-radius:50%;
   background: var(--glass); border:1px solid var(--glass-border);
   display:flex; align-items:center; justify-content:center;
-  color: var(--gold); font-size:.9rem;
-  transition: all .3s ease;
+  color: var(--gold); font-size:1.1rem;
+  transition: all .4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position:relative;
 }
 .social-dock a:hover{
-  background: rgba(34, 197, 94, 0.1);
+  background: rgba(245, 158, 11, 0.12);
   border-color: var(--gold);
-  transform: translateY(-4px);
+  transform: translateY(-6px) scale(1.08);
+  box-shadow: 0 8px 24px var(--gold-glow);
+}
+.social-dock a i{
+  transition: transform .4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.social-dock a:hover i{
+  transform: rotate(8deg) scale(1.1);
+}
+.social-dock a .social-tooltip{
+  position:absolute; bottom:calc(100% + 8px); left:50%; transform:translateX(-50%) scale(.8);
+  background: var(--surface); backdrop-filter: var(--glass-blur);
+  border:1px solid var(--glass-border); color: var(--text);
+  font-family: var(--font-mono); font-size:.6rem; white-space:nowrap;
+  padding:4px 10px; border-radius:6px;
+  opacity:0; visibility:hidden; transition: all .3s ease;
+  pointer-events:none;
+}
+.social-dock a:hover .social-tooltip{
+  opacity:1; visibility:visible; transform:translateX(-50%) scale(1);
 }
 .footer-bottom{
   display:flex; justify-content:space-between; align-items:center;
@@ -1315,13 +1389,13 @@ input, textarea, select{ font-family:inherit; }
 .skill-popup-close, .project-modal-close, .service-modal-close, .lightbox-close{
   position:absolute; top:20px; right:20px;
   width:36px; height:36px; border-radius:50%;
-  background: rgba(34, 197, 94, 0.1); border:1px solid var(--glass-border);
+  background: rgba(245, 158, 11, 0.1); border:1px solid var(--glass-border);
   color: var(--text); cursor:pointer;
   display:flex; align-items:center; justify-content:center;
   transition: all .3s ease;
 }
 .skill-popup-close:hover, .project-modal-close:hover, .service-modal-close:hover, .lightbox-close:hover{
-  background: rgba(34, 197, 94, 0.2);
+  background: rgba(245, 158, 11, 0.2);
   border-color: var(--gold);
   color: var(--gold);
 }
@@ -1441,12 +1515,23 @@ input, textarea, select{ font-family:inherit; }
 <div id="loader">
   <div class="loader-grid"></div>
   <div class="loader-core">
-    <svg viewBox="0 0 100 100" class="loader-ring">
-      <circle cx="50" cy="50" r="42"></circle>
+    <svg viewBox="0 0 100 100" class="loader-sparks">
+      <circle class="spark" cx="50" cy="6" r="2"></circle>
+      <circle class="spark" cx="94" cy="50" r="2"></circle>
+      <circle class="spark" cx="50" cy="94" r="2"></circle>
+      <circle class="spark" cx="6" cy="50" r="2"></circle>
+      <circle class="spark" cx="79" cy="21" r="1.6"></circle>
+      <circle class="spark" cx="79" cy="79" r="1.6"></circle>
+      <circle class="spark" cx="21" cy="79" r="1.6"></circle>
+      <circle class="spark" cx="21" cy="21" r="1.6"></circle>
+    </svg>
+    <svg viewBox="0 0 24 24" class="loader-bolt">
+      <path class="bolt-glow" d="M13 2 3 14h7l-1 8 11-14h-7z"></path>
+      <path class="bolt-draw" d="M13 2 3 14h7l-1 8 11-14h-7z"></path>
     </svg>
     <span class="loader-percent">0%</span>
   </div>
-  <div class="loader-label">INITIALIZING</div>
+  <div class="loader-label">CHARGING<span class="loader-dots"><span>.</span><span>.</span><span>.</span></span></div>
   <div class="loader-bar-wrap">
     <div class="loader-bar-fill" id="loaderBar"></div>
   </div>
@@ -1661,10 +1746,34 @@ input, textarea, select{ font-family:inherit; }
       <h3>Tharindu Dilshan</h3>
       <p>Industrial Electrician & NVQ Level 4 Student. Specialized in panel boards, motor control, and VFD systems on live industrial floors.</p>
       <div class="social-dock">
-        <a href="https://linkedin.com/in/tharindu-dilshan" target="_blank" rel="noopener" title="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
-        <a href="https://github.com/tharindu-dilshan-ai" target="_blank" rel="noopener" title="GitHub"><i class="fa-brands fa-github"></i></a>
-        <a href="https://twitter.com" target="_blank" rel="noopener" title="Twitter"><i class="fa-brands fa-twitter"></i></a>
-        <a href="https://instagram.com" target="_blank" rel="noopener" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://www.linkedin.com/in/tharindu-dilshan-841a9633a?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" rel="noopener" title="LinkedIn">
+          <i class="fa-brands fa-linkedin"></i>
+          <span class="social-tooltip">LinkedIn</span>
+        </a>
+        <a href="https://www.instagram.com/tharindudilshan.lk?igsh=MXB3eXNvdGtqZDY3NQ==" target="_blank" rel="noopener" title="Instagram">
+          <i class="fa-brands fa-instagram"></i>
+          <span class="social-tooltip">Instagram</span>
+        </a>
+        <a href="https://www.facebook.com/dilshan.ex0?mibextid=ZbWKwL" target="_blank" rel="noopener" title="Facebook">
+          <i class="fa-brands fa-facebook"></i>
+          <span class="social-tooltip">Facebook</span>
+        </a>
+        <a href="https://t.me/TharinduElectrial" target="_blank" rel="noopener" title="Telegram">
+          <i class="fa-brands fa-telegram"></i>
+          <span class="social-tooltip">Telegram</span>
+        </a>
+        <a href="https://www.threads.com/@tharindudilshan.lk" target="_blank" rel="noopener" title="Threads">
+          <i class="fa-brands fa-threads"></i>
+          <span class="social-tooltip">Threads</span>
+        </a>
+        <a href="https://x.com/dilshanbrox" target="_blank" rel="noopener" title="Twitter/X">
+          <i class="fa-brands fa-x-twitter"></i>
+          <span class="social-tooltip">X</span>
+        </a>
+        <a href="https://open.spotify.com/user/31g7hijxwxblssuz62f4czdd5t7a?si=VkkQC_QzSi63p8NPAdi_YQ" target="_blank" rel="noopener" title="Spotify">
+          <i class="fa-brands fa-spotify"></i>
+          <span class="social-tooltip">Spotify</span>
+        </a>
       </div>
     </div>
     <div class="footer-col">
@@ -1718,11 +1827,11 @@ input, textarea, select{ font-family:inherit; }
       <svg viewBox="0 0 120 120">
         <defs>
           <linearGradient id="skillRingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#15803D"/>
-            <stop offset="100%" stop-color="#86EFAC"/>
+            <stop offset="0%" stop-color="#B45309"/>
+            <stop offset="100%" stop-color="#FCD34D"/>
           </linearGradient>
         </defs>
-        <circle class="skill-ring-track" cx="60" cy="60" r="56" fill="none" stroke="rgba(34, 197, 94, 0.1)" stroke-width="4"></circle>
+        <circle class="skill-ring-track" cx="60" cy="60" r="56" fill="none" stroke="rgba(245, 158, 11, 0.1)" stroke-width="4"></circle>
         <circle class="skill-ring-fill" id="skillRingFill" cx="60" cy="60" r="56" fill="none" stroke="url(#skillRingGrad)" stroke-width="4" stroke-dasharray="352 352" stroke-linecap="round" transform="rotate(-90 60 60)"></circle>
       </svg>
       <div class="skill-ring-center">
@@ -1823,23 +1932,20 @@ const PROJECTS = [
 ];
 
 const EXPERIENCE = [
-  { title: "Industrial Electrician", role: "Current Position", company: "IETI - Moratuwa", desc: "Working in the Electrical & Maintenance Department with hands-on experience in panel boards, motor control centers, and VFD systems." },
+  { title: "Industrial Electrical Technician", role: "Current Position", company: "PGP Glass Ceylon PLC", desc: "Working in the Electrical & Maintenance Department with hands-on experience in panel boards, motor control centers, and Schneider Altivar VFD systems." },
   { title: "NVQ Level 4 Student", role: "Power Electrical (Special)", company: "IETI - Moratuwa", desc: "Pursuing formal qualification in power electrical systems with emphasis on industrial applications." },
   { title: "Electrical Assistant", role: "Training Role", company: "Field Experience", desc: "Gaining practical experience on live industrial floors with emphasis on safety protocols." }
 ];
 
 const CERTS = [
-  { title: "NVQ Level 4 in Progress", org: "IETI - Moratuwa" },
-  { title: "Electrical Safety Certified", org: "Industrial Training Institute" },
-  { title: "LOTO & Isolation Trained", org: "Safety Standards Board" },
-  { title: "Motor Systems Specialist", org: "Technical Training Center" }
+  { title: "NVQ Level 4 in Progress", org: "IETI - Moratuwa" }
 ];
 
 const CONTACT_INFO = [
   { icon: "fa-envelope", label: "Email", value: "dilshantharindu212@gmail.com", link: "mailto:dilshantharindu212@gmail.com" },
   { icon: "fa-phone", label: "Phone", value: "+94 71 230 8533", link: "tel:+94712308533" },
-  { icon: "fa-map-pin", label: "Location", value: "Mahagama, Sri Lanka", link: "#" },
-  { icon: "fa-globe", label: "Website", value: "tharindu-dilshan.com", link: "#" }
+  { icon: "fa-map-pin", label: "Location", value: "Mahagama, Sri Lanka", link: "https://www.google.com/maps/search/?api=1&query=Mahagama+Sri+Lanka" },
+  { icon: "fa-globe", label: "Website", value: "dbt-dilshan.github.io", link: "https://dbt-dilshan.github.io/" }
 ];
 
 /* =========================================================
@@ -1847,7 +1953,7 @@ const CONTACT_INFO = [
 ========================================================= */
 const htmlEl = document.documentElement;
 const savedTheme = localStorage.getItem("theme") || "dark";
-const savedPalette = localStorage.getItem("palette") || "emerald";
+const savedPalette = localStorage.getItem("palette") || "amber";
 const savedFontSize = localStorage.getItem("fontsize") || "md";
 
 htmlEl.setAttribute("data-theme", savedTheme);
@@ -1861,6 +1967,7 @@ window.addEventListener("load", () => {
   const loader = document.getElementById("loader");
   setTimeout(() => {
     loader.classList.add("hidden");
+    if (navigator.vibrate) navigator.vibrate([40, 60, 40, 60, 90]);
   }, 800);
 });
 
