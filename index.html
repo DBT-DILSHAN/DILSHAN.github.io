@@ -1688,7 +1688,7 @@ input, textarea, select{ font-family:inherit; }
     <div class="footer-col">
       <h3>Contact</h3>
       <ul>
-        <li><a href="mailto:tharindu@example.com">Email</a></li>
+        <li><a href="mailto:dilshantharindu212@gmail.com">Email</a></li>
         <li><a href="tel:+94712308533">+94 71 230 8533</a></li>
         <li><a href="https://wa.me/94712308533" target="_blank">WhatsApp</a></li>
         <li><a href="#contact">Send Message</a></li>
@@ -1759,8 +1759,28 @@ input, textarea, select{ font-family:inherit; }
   </div>
 </div>
 
-<!-- ================= EMAILJS ================= -->
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/index.min.js"></script>
+<!-- ================= EMAILJS (multi-CDN fallback loader) ================= -->
+<script>
+(function loadEmailJS(){
+  var sources = [
+    "https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/index.min.js",
+    "https://unpkg.com/@emailjs/browser@3/dist/index.min.js",
+    "https://cdnjs.cloudflare.com/ajax/libs/emailjs-com/3.2.0/email.min.js"
+  ];
+  function tryLoad(i){
+    if (i >= sources.length){
+      window.dispatchEvent(new Event("emailjs-load-failed"));
+      return;
+    }
+    var s = document.createElement("script");
+    s.src = sources[i];
+    s.onload = function(){ window.dispatchEvent(new Event("emailjs-ready")); };
+    s.onerror = function(){ tryLoad(i + 1); };
+    document.head.appendChild(s);
+  }
+  tryLoad(0);
+})();
+</script>
 
 <!-- ================= TYPED.JS ================= -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
@@ -1816,7 +1836,7 @@ const CERTS = [
 ];
 
 const CONTACT_INFO = [
-  { icon: "fa-envelope", label: "Email", value: "tharindu@example.com", link: "mailto:tharindu@example.com" },
+  { icon: "fa-envelope", label: "Email", value: "dilshantharindu212@gmail.com", link: "mailto:dilshantharindu212@gmail.com" },
   { icon: "fa-phone", label: "Phone", value: "+94 71 230 8533", link: "tel:+94712308533" },
   { icon: "fa-map-pin", label: "Location", value: "Mahagama, Sri Lanka", link: "#" },
   { icon: "fa-globe", label: "Website", value: "tharindu-dilshan.com", link: "#" }
@@ -2153,9 +2173,20 @@ CONTACT_INFO.forEach((info, i) => {
 /* =========================================================
    CONTACT FORM - EMAILJS
 ========================================================= */
-if (window.emailjs && SITE_CONFIG.EMAILJS_PUBLIC_KEY && !SITE_CONFIG.EMAILJS_PUBLIC_KEY.startsWith("YOUR_")) {
-  emailjs.init(SITE_CONFIG.EMAILJS_PUBLIC_KEY);
+let emailjsReady = false;
+let emailjsFailed = false;
+
+function initEmailJS(){
+  if (window.emailjs && SITE_CONFIG.EMAILJS_PUBLIC_KEY && !SITE_CONFIG.EMAILJS_PUBLIC_KEY.startsWith("YOUR_")) {
+    emailjs.init(SITE_CONFIG.EMAILJS_PUBLIC_KEY);
+    emailjsReady = true;
+  }
 }
+// Script may already have loaded before this ran (fast network)
+if (window.emailjs) initEmailJS();
+// Or it may finish loading a moment later
+window.addEventListener("emailjs-load-failed", () => { emailjsFailed = true; });
+window.addEventListener("emailjs-ready", initEmailJS);
 
 const contactForm = document.getElementById("contactForm");
 const submitBtn = document.getElementById("submitBtn");
@@ -2201,7 +2232,16 @@ contactForm.addEventListener("submit", async (e) => {
     return;
   }
 
-  const configured = window.emailjs && !SITE_CONFIG.EMAILJS_PUBLIC_KEY.startsWith("YOUR_");
+  // If EmailJS hasn't finished loading yet (slow network), wait briefly instead of failing immediately
+  if (!emailjsReady && !emailjsFailed) {
+    formStatus.textContent = "Connecting… please wait.";
+    formStatus.className = "form-status";
+    for (let i = 0; i < 20 && !emailjsReady && !emailjsFailed; i++) {
+      await new Promise(r => setTimeout(r, 250));
+    }
+  }
+
+  const configured = emailjsReady && window.emailjs && !SITE_CONFIG.EMAILJS_PUBLIC_KEY.startsWith("YOUR_");
   if (!configured) {
     formStatus.textContent = "Please reach out via WhatsApp or email directly.";
     formStatus.className = "form-status error";
@@ -2218,7 +2258,8 @@ contactForm.addEventListener("submit", async (e) => {
       reply_to: email,
       phone: phone,
       message: message,
-      to_name: "Tharindu Dilshan"
+      to_name: "Tharindu Dilshan",
+      to_email: "dilshantharindu212@gmail.com"
     });
     formStatus.textContent = "✅ Message sent! I'll get back to you soon.";
     formStatus.className = "form-status success";
