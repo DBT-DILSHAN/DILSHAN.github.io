@@ -9,10 +9,10 @@
 :root {
   /* DARK THEME (default) */
   --bg: #000000;
-  --bg-alt: #050505;
-  --surface: rgba(5, 5, 5, 0.72);
-  --surface-2: rgba(5, 5, 5, 0.48);
-  --glass: rgba(5, 5, 5, 0.66);
+  --bg-alt: #000000;
+  --surface: rgba(0, 0, 0, 0.72);
+  --surface-2: rgba(0, 0, 0, 0.48);
+  --glass: rgba(0, 0, 0, 0.66);
   --glass-border: rgba(34, 197, 94, 0.16);
   --glass-highlight: rgba(255, 255, 255, 0.04);
   --border: rgba(34, 197, 94, 0.12);
