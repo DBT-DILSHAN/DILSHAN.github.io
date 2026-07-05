@@ -7,57 +7,58 @@
 <meta name="description" content="Tharindu Dilshan — Industrial Electrician & Electrical Installation and Maintenance Specialist based in Sri Lanka.">
 <meta name="keywords" content="Tharindu Dilshan, Electrical Technician, Industrial Electrician, VFD, Motor Control, Panel Board, Sri Lanka Electrician">
 <meta name="author" content="Tharindu Dilshan">
-<link rel="canonical" href="https://tharindu-dilshan-ai.github.io/">
+<link rel="canonical" href="https://dbt-dilshan.github.io/">
 <meta name="theme-color" content="#0a0a0a">
 <meta name="color-scheme" content="dark light">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="robots" content="index, follow, max-image-preview:large">
 
 <!-- Open Graph -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="Tharindu Dilshan | Industrial Electrical Technician">
 <meta property="og:description" content="Industrial Electrician & Electrical Installation and Maintenance Specialist based in Sri Lanka.">
-<meta property="og:image" content="assets/images/og-cover.jpg">
-<meta property="og:url" content="https://tharindu-dilshan-ai.github.io/">
+<meta property="og:image" content="https://dbt-dilshan.github.io/assets/images/og-cover.jpg">
+<meta property="og:url" content="https://dbt-dilshan.github.io/">
 <meta property="og:locale" content="en_US">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Tharindu Dilshan | Industrial Electrical Technician">
 <meta name="twitter:description" content="Industrial Electrician & Electrical Installation and Maintenance Specialist based in Sri Lanka.">
-<meta name="twitter:image" content="assets/images/og-cover.jpg">
+<meta name="twitter:image" content="https://dbt-dilshan.github.io/assets/images/og-cover.jpg">
 
 <!-- Icons / PWA -->
 <link rel="icon" type="image/png" href="assets/icons/favicon.png">
 <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
 <link rel="manifest" href="manifest.json">
 
-<!-- Preconnect -->
+<!-- Preconnect / DNS -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preconnect" href="https://cdnjs.cloudflare.com">
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+
+<!-- Site stylesheet (same-origin, render-blocking by design: prevents flash of unstyled content) -->
+<link rel="stylesheet" href="style.css">
 
 <!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-<!-- AOS -->
+<!-- AOS (scroll-reveal) -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
 
 <!-- Font Awesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-<!-- Stylesheet -->
-<link rel="stylesheet" href="style.css">
-
-<!-- Schema.org structured data -->
+<!-- Schema.org -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Person",
   "name": "Tharindu Dilshan",
   "jobTitle": "Industrial Electrical Technician",
-  "url": "https://tharindu-dilshan-ai.github.io/",
+  "url": "https://dbt-dilshan.github.io/",
   "sameAs": [
-    "https://github.com/tharindu-dilshan-Ai",
+    "https://github.com/DBT-DILSHAN",
     "https://x.com/dilshanbrox",
     "https://www.linkedin.com/in/tharindu-dilshan-841a9633a",
     "https://www.facebook.com/share/18zL6gY5Gb/",
@@ -72,6 +73,7 @@
 </script>
 </head>
 <body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
 <!-- ================= LOADER ================= -->
 <div id="loader">
   <div class="loader-grid"></div>
@@ -146,6 +148,7 @@
   </button>
 </header>
 
+<main id="main-content">
 <!-- ================= HOME ================= -->
 <section id="home" class="hero">
   <div class="circuit-bg"></div>
@@ -453,6 +456,8 @@
 </section>
 
 <!-- ================= FOOTER ================= -->
+</main>
+
 <footer class="footer">
   <div class="footer-top">
     <div class="footer-brand" data-aos="fade-up"><a href="#home" class="nav-logo">TD<span class="dot">.</span></a></div>
@@ -480,12 +485,14 @@
 <button class="back-to-top" id="backToTop" aria-label="Back to top"><i class="fa-solid fa-chevron-up"></i></button>
 
 <!-- ================= SCRIPTS ================= -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<!-- Third-party libraries: deferred so they never block first paint -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.1.0/typed.umd.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" defer></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.1.0/typed.umd.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<script src="script.js"></script>
+<!-- Site logic -->
+<script src="script.js" defer></script>
 </body>
 </html>

@@ -444,6 +444,32 @@ html{
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+@media (prefers-reduced-motion: reduce){
+  html{ scroll-behavior:auto; }
+  *, *::before, *::after{
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Skip link - visible on keyboard focus, hidden otherwise */
+.skip-link{
+  position: absolute;
+  top: -48px;
+  left: 12px;
+  z-index: 10000;
+  background: var(--gold);
+  color: #04140b;
+  font-family: var(--font-mono);
+  font-size: .8rem;
+  font-weight: 700;
+  padding: 10px 18px;
+  border-radius: 8px;
+  transition: top 0.2s ease;
+}
+.skip-link:focus{ top: 12px; }
 body{
   background: var(--bg);
   color: var(--text);

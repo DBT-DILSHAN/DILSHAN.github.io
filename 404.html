@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page Not Found | Tharindu Dilshan</title>
+<meta name="robots" content="noindex, follow">
+<link rel="icon" type="image/png" href="assets/icons/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Space+Mono:wght@400;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+<style>
+  .error-page{
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 24px;
+    position: relative;
+    z-index: 2;
+  }
+  .error-code{
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(4rem, 18vw, 9rem);
+    line-height: 1;
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .error-title{
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.3rem, 4vw, 1.8rem);
+    margin: 12px 0 10px;
+  }
+  .error-desc{
+    color: var(--text-dim);
+    max-width: 46ch;
+    margin-bottom: 28px;
+  }
+</style>
+</head>
+<body>
+<div class="gradient-mesh" aria-hidden="true"></div>
+<div class="error-page">
+  <span class="error-code" aria-hidden="true">404</span>
+  <h1 class="error-title">This page took an unplanned outage.</h1>
+  <p class="error-desc">The page you're looking for has been disconnected or never existed. Let's get you back to safe ground.</p>
+  <a href="/" class="btn btn-primary">
+    <i class="fa-solid fa-house"></i> Back to Home
+  </a>
+</div>
+</body>
+</html>

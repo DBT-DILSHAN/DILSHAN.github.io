@@ -220,32 +220,108 @@ function initAmbientBlobParallax() {
 }
 
 function initTouchVibration() {
-  // Ripple + haptic feedback on tap for interactive cards.
-  // Consolidated from repeated per-selector blocks into one config-driven loop.
-  const rippleTargets = [
-    { selector: '.skill-card', vibrate: 25 },
-    { selector: '.service-card', vibrate: 25 },
-    { selector: '.project-card', vibrate: 25 },
-    { selector: '.contact-item', vibrate: 35 },
-    { selector: '.address-item', vibrate: 35 },
-    { selector: '.cert-card', vibrate: 25 },
-    { selector: '.about-col', vibrate: 25 }
-  ];
+  document.querySelectorAll('.skill-card').forEach(card => {
+    card.addEventListener('click', function(e) {
+      const rect = this.getBoundingClientRect();
+      const ripple = document.createElement('span');
+      ripple.className = 'touch-ripple';
+      const size = Math.max(rect.width, rect.height) * 0.35;
+      ripple.style.width = ripple.style.height = size + 'px';
+      ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
+      ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
+      this.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 500);
+      if (navigator.vibrate) navigator.vibrate(25);
+    });
+  });
 
-  rippleTargets.forEach(({ selector, vibrate }) => {
-    document.querySelectorAll(selector).forEach(el => {
-      el.addEventListener('click', function (e) {
-        const rect = this.getBoundingClientRect();
-        const ripple = document.createElement('span');
-        ripple.className = 'touch-ripple';
-        const size = Math.max(rect.width, rect.height) * 0.35;
-        ripple.style.width = ripple.style.height = size + 'px';
-        ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
-        ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
-        this.appendChild(ripple);
-        setTimeout(() => ripple.remove(), 500);
-        if (navigator.vibrate) navigator.vibrate(vibrate);
-      });
+  document.querySelectorAll('.service-card').forEach(card => {
+    card.addEventListener('click', function(e) {
+      const rect = this.getBoundingClientRect();
+      const ripple = document.createElement('span');
+      ripple.className = 'touch-ripple';
+      const size = Math.max(rect.width, rect.height) * 0.35;
+      ripple.style.width = ripple.style.height = size + 'px';
+      ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
+      ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
+      this.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 500);
+      if (navigator.vibrate) navigator.vibrate(25);
+    });
+  });
+
+  document.querySelectorAll('.project-card').forEach(card => {
+    card.addEventListener('click', function(e) {
+      const rect = this.getBoundingClientRect();
+      const ripple = document.createElement('span');
+      ripple.className = 'touch-ripple';
+      const size = Math.max(rect.width, rect.height) * 0.35;
+      ripple.style.width = ripple.style.height = size + 'px';
+      ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
+      ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
+      this.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 500);
+      if (navigator.vibrate) navigator.vibrate(25);
+    });
+  });
+
+  document.querySelectorAll('.contact-item').forEach(item => {
+    item.addEventListener('click', function(e) {
+      const rect = this.getBoundingClientRect();
+      const ripple = document.createElement('span');
+      ripple.className = 'touch-ripple';
+      const size = Math.max(rect.width, rect.height) * 0.35;
+      ripple.style.width = ripple.style.height = size + 'px';
+      ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
+      ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
+      this.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 500);
+      if (navigator.vibrate) navigator.vibrate(35);
+    });
+  });
+
+  document.querySelectorAll('.address-item').forEach(item => {
+    item.addEventListener('click', function(e) {
+      const rect = this.getBoundingClientRect();
+      const ripple = document.createElement('span');
+      ripple.className = 'touch-ripple';
+      const size = Math.max(rect.width, rect.height) * 0.35;
+      ripple.style.width = ripple.style.height = size + 'px';
+      ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
+      ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
+      this.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 500);
+      if (navigator.vibrate) navigator.vibrate(35);
+    });
+  });
+
+  document.querySelectorAll('.cert-card').forEach(card => {
+    card.addEventListener('click', function(e) {
+      const rect = this.getBoundingClientRect();
+      const ripple = document.createElement('span');
+      ripple.className = 'touch-ripple';
+      const size = Math.max(rect.width, rect.height) * 0.35;
+      ripple.style.width = ripple.style.height = size + 'px';
+      ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
+      ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
+      this.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 500);
+      if (navigator.vibrate) navigator.vibrate(25);
+    });
+  });
+
+  document.querySelectorAll('.about-col').forEach(col => {
+    col.addEventListener('click', function(e) {
+      const rect = this.getBoundingClientRect();
+      const ripple = document.createElement('span');
+      ripple.className = 'touch-ripple';
+      const size = Math.max(rect.width, rect.height) * 0.35;
+      ripple.style.width = ripple.style.height = size + 'px';
+      ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
+      ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
+      this.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 500);
+      if (navigator.vibrate) navigator.vibrate(25);
     });
   });
 }
@@ -465,6 +541,13 @@ serviceModal.addEventListener('click', (e) => {
   if (e.target === serviceModal) closeServiceModal(); 
 });
 
+// Close on escape key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && serviceModal.classList.contains('active')) {
+    closeServiceModal();
+  }
+});
+
 /* =========================================================
    RENDER PROJECTS
 ========================================================= */
@@ -511,6 +594,13 @@ projectModal.addEventListener("click", (e) => {
   if (e.target === projectModal) closeModal(); 
 });
 
+// Close on Escape key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && projectModal.classList.contains('active')) {
+    closeModal();
+  }
+});
+
 /* =========================================================
    RENDER CERTIFICATES
 ========================================================= */
@@ -554,16 +644,11 @@ lightbox.addEventListener("click", (e) => {
   if (e.target === lightbox) closeLightbox(); 
 });
 
-/* =========================================================
-   MODAL ESCAPE-KEY HANDLING (consolidated)
-   One shared listener closes whichever modal is currently open,
-   instead of a separate document-level listener per modal.
-========================================================= */
+// Close on Escape key
 document.addEventListener('keydown', (e) => {
-  if (e.key !== 'Escape') return;
-  if (serviceModal.classList.contains('active')) closeServiceModal();
-  if (projectModal.classList.contains('active')) closeModal();
-  if (lightbox.classList.contains('active')) closeLightbox();
+  if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+    closeLightbox();
+  }
 });
 
 /* =========================================================
