@@ -294,6 +294,7 @@
   opacity: .8;
 }
 [data-theme="light"] .gradient-mesh{ opacity: .45; }
+[data-theme="dark"] .gradient-mesh{ opacity: .25; }
 @keyframes meshFlow{
   0%, 100%{ background-position: 0% 0%, 100% 0%, 50% 100%, 100% 100%; }
   50%{ background-position: 100% 100%, 0% 100%, 50% 0%, 0% 0%; }
