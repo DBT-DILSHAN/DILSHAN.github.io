@@ -1,52 +1,288 @@
-/* =========================================================
-   CONFIG — update these with your real details
-========================================================= */
 const SITE_CONFIG = {
-  WHATSAPP_NUMBER: "94770000000", // Sri Lanka format, no + or leading 0
-  EMAIL: "hello.tharindudilshan@gmail.com",
-  GITHUB_URL: "https://github.com/dbt-dilshan",
-  FACEBOOK_URL: "#",
-  INSTAGRAM_URL: "#",
-  CV_PATH: "assets/Tharindu_Dilshan_CV.pdf"
+  EMAILJS_PUBLIC_KEY: "PD8Bxa0tEm1PbizPk",
+  EMAILJS_SERVICE_ID: "service_in0migl",
+  EMAILJS_TEMPLATE_ID: "template_rzqdow9",
+  FORM_COOLDOWN_SECONDS: 30,
+  WHATSAPP_NUMBER: "+94712308533"
 };
 
+const SKILLS = [
+  { name: "Electrical Safety", level: 97 },
+  { name: "Industrial Wiring", level: 92 },
+  { name: "Troubleshooting", level: 92 },
+  { name: "Motor Control", level: 90 },
+  { name: "Control Panels", level: 90 },
+  { name: "Preventive Maintenance", level: 90 },
+  { name: "Power Distribution", level: 85 },
+  { name: "PLC Basics", level: 75 }
+];
+
+const PROJECTS = [
+  { title: "Distribution Panel Overhaul", desc: "Rewired and relabeled an aging distribution panel.", tags: ["Panel Boards", "Safety"], filter: "panel", icon: "fa-server" },
+  { title: "Motor Control Center Maintenance", desc: "Routine and corrective maintenance on MCC units.", tags: ["Motor Control", "Maintenance"], filter: "motor", icon: "fa-gears" },
+  { title: "Schneider Altivar VFD Commissioning", desc: "Parameterized and commissioned Altivar-series VFDs.", tags: ["VFD", "Automation"], filter: "vfd", icon: "fa-bolt" },
+  { title: "Control Panel Wiring Build", desc: "Built and wired a control panel from schematic.", tags: ["Panel Boards", "Wiring"], filter: "panel", icon: "fa-diagram-project" },
+  { title: "VFD Fault Diagnostics", desc: "Diagnosed and resolved recurring drive faults.", tags: ["VFD", "Troubleshooting"], filter: "vfd", icon: "fa-magnifying-glass-chart" },
+  { title: "Motor Rewiring & Alignment Support", desc: "Supported motor rewiring and coupling alignment.", tags: ["Motor Control", "Field Work"], filter: "motor", icon: "fa-industry" }
+];
+
+const CERTS = [
+  { title: "NVQ Level 4 — Power Electrical (Special)", org: "IETI Moratuwa" }
+];
+
+const SERVICES = [
+  { icon: "fa-industry", title: "Industrial Electrical Installation", desc: "Wiring, panel setup and equipment installation for industrial facilities." },
+  { icon: "fa-house-chimney-user", title: "Residential Electrical Services", desc: "Home wiring, fixture installation and safety upgrades for your home." },
+  { icon: "fa-building", title: "Commercial Electrical Solutions", desc: "Wiring and power distribution for offices, shops and commercial premises." },
+  { icon: "fa-screwdriver-wrench", title: "Electrical Maintenance", desc: "Scheduled maintenance to keep your electrical systems running smoothly." },
+  { icon: "fa-server", title: "Panel Installation", desc: "Control panel and distribution board setup for industrial and commercial use." },
+  { icon: "fa-gears", title: "Machine Wiring", desc: "Motor and machine wiring, including VFD systems and control circuits." },
+  { icon: "fa-triangle-exclamation", title: "Emergency Repairs", desc: "Fast, safe response to electrical faults and emergency breakdowns." },
+  { icon: "fa-magnifying-glass", title: "Fault Finding & Inspection", desc: "Systematic troubleshooting and preventive inspection of electrical systems." }
+];
+
 /* =========================================================
-   LOADER
+   THEME TOGGLE - LIQUID GLASS SWITCH
+========================================================= */
+document.addEventListener('DOMContentLoaded', () => {
+  const themeSwitch = document.getElementById('themeSwitch');
+  const themeIcon = document.getElementById('themeIcon');
+  const html = document.documentElement;
+
+  // Check saved theme or system preference
+  const savedTheme = localStorage.getItem('theme');
+  const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const initialTheme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
+  html.setAttribute('data-theme', initialTheme);
+  updateIcon(initialTheme);
+
+  themeSwitch.addEventListener('click', function(e) {
+    // Ripple effect on switch
+    const rect = this.getBoundingClientRect();
+    const ripple = document.createElement('span');
+    ripple.className = 'switch-ripple';
+    const size = Math.max(rect.width, rect.height) * 0.4;
+    ripple.style.width = ripple.style.height = size + 'px';
+    ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
+    ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
+    this.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 600);
+
+    // Toggle theme
+    const current = html.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    updateIcon(next);
+
+    // Haptic feedback
+    if (navigator.vibrate) navigator.vibrate(18);
+  });
+
+  // Keyboard support
+  themeSwitch.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      themeSwitch.click();
+    }
+  });
+
+  function updateIcon(theme) {
+    themeIcon.className = theme === 'dark' ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
+  }
+});
+
+/* =========================================================
+   LOADER - ELECTRICAL BOLT CHARGING
 ========================================================= */
 window.addEventListener("load", () => {
   const loader = document.getElementById("loader");
-  setTimeout(() => loader.classList.add("hidden"), 1300);
+  const percent = document.getElementById("loaderPercent");
+  const loaderBar = document.getElementById("loaderBar");
+  const boltFill = document.getElementById("boltFill");
+  const boltSparks = document.getElementById("boltSparks");
+  const boltFlash = document.getElementById("boltFlash");
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function spawnSpark(){
+    if (reduceMotion || !boltSparks) return;
+    const spark = document.createElement('span');
+    spark.className = 'bolt-spark';
+    const angle = Math.random() * Math.PI * 2;
+    const dist = 30 + Math.random() * 30;
+    spark.style.setProperty('--sx', Math.cos(angle) * dist + 'px');
+    spark.style.setProperty('--sy', Math.sin(angle) * dist + 'px');
+    boltSparks.appendChild(spark);
+    setTimeout(() => spark.remove(), 650);
+  }
+
+  let p = 0;
+  const iv = setInterval(() => {
+    p += Math.random() * 18;
+    if (p >= 100) { p = 100; clearInterval(iv); }
+    percent.textContent = Math.floor(p) + "%";
+    loaderBar.style.width = p + "%";
+    if (boltFill) boltFill.style.clipPath = `inset(${100 - p}% 0 0 0)`;
+    spawnSpark();
+  }, 120);
+
+  setTimeout(() => {
+    if (boltFlash) boltFlash.classList.add('active');
+    if (navigator.vibrate) navigator.vibrate([15, 30, 15]);
+  }, 1250);
+
+  setTimeout(() => {
+    loader.classList.add("hidden");
+    document.body.style.overflow = "auto";
+    initSparkLines();
+    initLiquidGlass();
+    initTouchVibration();
+    initAmbientBlobParallax();
+  }, 1400);
 });
 
 /* =========================================================
-   NAVBAR
+   LIQUID GLASS EFFECT
 ========================================================= */
+function initLiquidGlass() {
+  const canHover = window.matchMedia('(hover: hover)').matches;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  document.querySelectorAll('.glass-card, .about-col, .service-card, .skill-card, .project-card, .cert-card, .timeline-card, .contact-item, .address-item').forEach(card => {
+    const ripple = document.createElement('div');
+    ripple.className = 'glass-ripple';
+    card.appendChild(ripple);
+
+    const shine = document.createElement('div');
+    shine.className = 'glass-shine';
+    card.appendChild(shine);
+
+    const edge = document.createElement('div');
+    edge.className = 'glass-edge';
+    card.appendChild(edge);
+
+    if (!canHover || reduceMotion) return;
+
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      card.style.setProperty('--mouse-x', x + '%');
+      card.style.setProperty('--mouse-y', y + '%');
+      ripple.style.left = x + '%';
+      ripple.style.top = y + '%';
+
+      /* subtle liquid tilt, capped to a gentle range */
+      const tiltX = ((x - 50) / 50) * 5;
+      const tiltY = ((y - 50) / 50) * -5;
+      card.style.setProperty('--rx', tiltX.toFixed(2) + 'deg');
+      card.style.setProperty('--ry', tiltY.toFixed(2) + 'deg');
+    });
+
+    card.addEventListener('mouseleave', () => {
+      ripple.style.opacity = '0';
+      card.style.setProperty('--rx', '0deg');
+      card.style.setProperty('--ry', '0deg');
+      setTimeout(() => {
+        ripple.style.opacity = '1';
+      }, 100);
+    });
+  });
+}
+
+/* =========================================================
+   TOUCH VIBRATION
+========================================================= */
+function initAmbientBlobParallax() {
+  const blobs = document.querySelectorAll('.liquid-blobs .blob');
+  if (!blobs.length) return;
+  const canHover = window.matchMedia('(hover: hover)').matches;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!canHover || reduceMotion) return;
+
+  let targetX = 0, targetY = 0, curX = 0, curY = 0;
+  window.addEventListener('mousemove', (e) => {
+    targetX = (e.clientX / window.innerWidth - 0.5) * 2;
+    targetY = (e.clientY / window.innerHeight - 0.5) * 2;
+  });
+
+  function raf() {
+    curX += (targetX - curX) * 0.04;
+    curY += (targetY - curY) * 0.04;
+    blobs.forEach((blob, i) => {
+      const depth = (i + 1) * 10;
+      blob.style.marginLeft = (curX * depth) + 'px';
+      blob.style.marginTop = (curY * depth) + 'px';
+    });
+    requestAnimationFrame(raf);
+  }
+  raf();
+}
+
+function initTouchVibration() {
+  // Ripple + haptic feedback on tap for interactive cards.
+  // Consolidated from repeated per-selector blocks into one config-driven loop.
+  const rippleTargets = [
+    { selector: '.skill-card', vibrate: 25 },
+    { selector: '.service-card', vibrate: 25 },
+    { selector: '.project-card', vibrate: 25 },
+    { selector: '.contact-item', vibrate: 35 },
+    { selector: '.address-item', vibrate: 35 },
+    { selector: '.cert-card', vibrate: 25 },
+    { selector: '.about-col', vibrate: 25 }
+  ];
+
+  rippleTargets.forEach(({ selector, vibrate }) => {
+    document.querySelectorAll(selector).forEach(el => {
+      el.addEventListener('click', function (e) {
+        const rect = this.getBoundingClientRect();
+        const ripple = document.createElement('span');
+        ripple.className = 'touch-ripple';
+        const size = Math.max(rect.width, rect.height) * 0.35;
+        ripple.style.width = ripple.style.height = size + 'px';
+        ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+        ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+        this.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 500);
+        if (navigator.vibrate) navigator.vibrate(vibrate);
+      });
+    });
+  });
+}
+
+/* =========================================================
+   SCROLL PROGRESS + NAVBAR
+========================================================= */
+const scrollProgress = document.getElementById("scrollProgress");
 const navbar = document.getElementById("navbar");
-const navLinks = document.getElementById("navLinks");
-const hamburger = document.getElementById("hamburger");
 const backToTop = document.getElementById("backToTop");
 
 window.addEventListener("scroll", () => {
-  navbar.classList.toggle("scrolled", window.scrollY > 30);
-  backToTop.classList.toggle("visible", window.scrollY > 500);
-  updateActiveLink();
+  const h = document.documentElement;
+  const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+  scrollProgress.style.width = scrolled + "%";
+  navbar.classList.toggle("scrolled", h.scrollTop > 40);
+  backToTop.classList.toggle("visible", h.scrollTop > 500);
+  updateActiveNav();
 });
-
-hamburger.addEventListener("click", () => {
-  navLinks.classList.toggle("open");
-  hamburger.classList.toggle("active");
-});
-navLinks.querySelectorAll("a").forEach(a => a.addEventListener("click", () => {
-  navLinks.classList.remove("open");
-  hamburger.classList.remove("active");
-}));
 backToTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
 
-const sections = document.querySelectorAll("main .section, .hero");
-function updateActiveLink() {
+/* =========================================================
+   NAV
+========================================================= */
+const navToggle = document.getElementById("navToggle");
+const navLinks = document.getElementById("navLinks");
+const navClose = document.getElementById("navClose");
+
+navToggle.addEventListener("click", () => navLinks.classList.toggle("open"));
+navClose.addEventListener("click", () => navLinks.classList.remove("open"));
+navLinks.querySelectorAll("a").forEach(a => a.addEventListener("click", () => navLinks.classList.remove("open")));
+
+function updateActiveNav(){
+  const sections = document.querySelectorAll("section[id]");
   let current = "home";
   sections.forEach(sec => {
-    const top = sec.offsetTop - 120;
+    const top = sec.offsetTop - 140;
     if (window.scrollY >= top) current = sec.id;
   });
   document.querySelectorAll(".nav-link").forEach(link => {
@@ -55,194 +291,193 @@ function updateActiveLink() {
 }
 
 /* =========================================================
-   THEME TOGGLE
+   PARTICLES
 ========================================================= */
-const themeSwitch = document.getElementById("themeSwitch");
-const html = document.documentElement;
-const savedTheme = localStorage.getItem("td-theme");
-if (savedTheme) html.setAttribute("data-theme", savedTheme);
-
-function setThemeIcon() {
-  const isLight = html.getAttribute("data-theme") === "light";
-  themeSwitch.querySelector(".switch-thumb i").className = isLight ? "fa-solid fa-sun" : "fa-solid fa-moon";
+if (window.particlesJS) {
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!(isMobile && reduceMotion)) {
+    particlesJS("particles-bg", {
+      particles: {
+        number: { value: isMobile ? 16 : 50, density: { enable: true, value_area: 800 } },
+        color: { value: ["#22C55E", "#4ADE80", "#86EFAC"] },
+        shape: { type: "circle" },
+        opacity: { value: 0.15, random: true },
+        size: { value: 2, random: true },
+        line_linked: { enable: !isMobile, distance: 120, color: "#22C55E", opacity: 0.04, width: 1 },
+        move: { enable: true, speed: isMobile ? 0.3 : 0.5, direction: "none", random: true, out_mode: "out" }
+      },
+      interactivity: {
+        detect_on: "canvas",
+        events: { onhover: { enable: !isMobile, mode: "grab" }, resize: true },
+        modes: { grab: { distance: 120, line_linked: { opacity: 0.08 } } }
+      },
+      retina_detect: !isMobile
+    });
+  }
 }
-setThemeIcon();
 
-themeSwitch.addEventListener("click", () => {
-  const next = html.getAttribute("data-theme") === "light" ? "dark" : "light";
-  html.setAttribute("data-theme", next);
-  localStorage.setItem("td-theme", next);
-  setThemeIcon();
-  if (navigator.vibrate) navigator.vibrate(6);
+/* =========================================================
+   TYPED
+========================================================= */
+if (window.Typed) {
+  new Typed("#typedRole", {
+    strings: ["Electrical Technician", "Industrial Electrician", "Electrical Installation Specialist"],
+    typeSpeed: 40, backSpeed: 20, backDelay: 1600, loop: true, smartBackspace: true
+  });
+}
+
+/* =========================================================
+   SPARK LINES
+========================================================= */
+function initSparkLines(){
+  const svg = document.getElementById("sparkSvg");
+  if (!svg) return;
+  const paths = [
+    "M0,140 L220,140 L260,180 L520,180 L560,120 L900,120 L950,200 L1440,200",
+    "M0,620 L180,620 L220,560 L480,560 L520,660 L860,660 L900,580 L1440,580",
+    "M1440,320 L1200,320 L1160,380 L900,380 L860,300 L560,300"
+  ];
+  paths.forEach((d, i) => {
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute("d", d);
+    svg.appendChild(path);
+    const len = path.getTotalLength();
+    path.style.strokeDasharray = len;
+    path.style.strokeDashoffset = len;
+    if (window.gsap) {
+      gsap.to(path, {
+        strokeDashoffset: 0, opacity: 1, duration: 2.2, delay: i * 0.5, ease: "power2.inOut",
+        onComplete: () => { gsap.to(path, { opacity: 0.06, duration: 1 }); }
+      });
+    }
+  });
+}
+
+/* =========================================================
+   RENDER SKILLS
+========================================================= */
+const skillsGrid = document.getElementById("skillsGrid");
+const skillPopup = document.getElementById("skillPopup");
+const skillPopupClose = document.getElementById("skillPopupClose");
+const skillRingFill = document.getElementById("skillRingFill");
+const skillPopupLevel = document.getElementById("skillPopupLevel");
+const RING_CIRC = 351.86;
+let skillCountRAF = null;
+
+function animateSkillPopup(level) {
+  skillRingFill.style.transition = "none";
+  skillRingFill.style.strokeDashoffset = RING_CIRC;
+  skillPopupLevel.textContent = "0%";
+  skillRingFill.getBoundingClientRect();
+  skillRingFill.style.transition = "";
+
+  requestAnimationFrame(() => {
+    skillRingFill.style.strokeDashoffset = RING_CIRC - (RING_CIRC * level / 100);
+  });
+
+  if (skillCountRAF) cancelAnimationFrame(skillCountRAF);
+  const duration = 1000;
+  const start = performance.now();
+  function tick(now) {
+    const t = Math.min(1, (now - start) / duration);
+    const eased = 1 - Math.pow(1 - t, 3);
+    skillPopupLevel.textContent = Math.round(eased * level) + "%";
+    if (t < 1) skillCountRAF = requestAnimationFrame(tick);
+  }
+  skillCountRAF = requestAnimationFrame(tick);
+}
+
+SKILLS.forEach((skill, index) => {
+  const card = document.createElement("div");
+  card.className = "skill-card glass-card";
+  card.style.transitionDelay = (index * 30) + "ms";
+  card.innerHTML = `
+    <div class="skill-top"><span>${skill.name}</span></div>
+    <div class="skill-bar"><div class="skill-fill" data-level="${skill.level}"></div></div>
+  `;
+
+  card.addEventListener('click', function(e) {
+    const fill = this.querySelector('.skill-fill');
+    fill.style.width = '0%';
+    fill.getBoundingClientRect();
+    requestAnimationFrame(() => { fill.style.width = skill.level + '%'; });
+
+    document.getElementById('skillPopupName').textContent = skill.name;
+    document.getElementById('skillPopupDesc').textContent = 'Proficiency level for ' + skill.name;
+    document.getElementById('skillPopupIcon').className = 'fa-solid fa-bolt';
+    skillPopup.classList.add('active');
+    animateSkillPopup(skill.level);
+    if (navigator.vibrate) navigator.vibrate(25);
+  });
+  
+  skillsGrid.appendChild(card);
 });
 
-/* =========================================================
-   CIRCUIT BACKGROUND CANVAS (hero signature animation)
-========================================================= */
-const canvas = document.getElementById("circuitCanvas");
-const ctx = canvas.getContext("2d");
-let W, H, nodes = [], pulses = [];
+skillPopupClose.addEventListener('click', () => skillPopup.classList.remove('active'));
+skillPopup.addEventListener('click', (e) => { if (e.target === skillPopup) skillPopup.classList.remove('active'); });
 
-function resizeCanvas() {
-  W = canvas.width = canvas.offsetWidth;
-  H = canvas.height = canvas.offsetHeight;
-  buildGrid();
-}
-
-function buildGrid() {
-  nodes = [];
-  const cols = Math.max(6, Math.floor(W / 130));
-  const rows = Math.max(4, Math.floor(H / 130));
-  const spacingX = W / cols, spacingY = H / rows;
-  for (let i = 0; i <= cols; i++) {
-    for (let j = 0; j <= rows; j++) {
-      if (Math.random() > 0.55) {
-        nodes.push({
-          x: i * spacingX + (Math.random() - 0.5) * 30,
-          y: j * spacingY + (Math.random() - 0.5) * 30
-        });
-      }
+const skillObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting){
+      const fills = entry.target.querySelectorAll('.skill-fill');
+      fills.forEach((fill, index) => {
+        setTimeout(() => { fill.style.width = fill.dataset.level + '%'; }, index * 50);
+      });
+      skillObserver.unobserve(entry.target);
     }
-  }
-  pulses = [];
-  for (let i = 0; i < 10; i++) spawnPulse();
-}
-
-function nearestNodes(node, count) {
-  return nodes
-    .filter(n => n !== node)
-    .map(n => ({ n, d: Math.hypot(n.x - node.x, n.y - node.y) }))
-    .sort((a, b) => a.d - b.d)
-    .slice(0, count)
-    .map(o => o.n);
-}
-
-function spawnPulse() {
-  if (nodes.length < 2) return;
-  const start = nodes[Math.floor(Math.random() * nodes.length)];
-  const targets = nearestNodes(start, 3);
-  const end = targets[Math.floor(Math.random() * targets.length)];
-  if (!end) return;
-  pulses.push({ start, end, t: 0, speed: 0.006 + Math.random() * 0.006 });
-}
-
-const isLight = () => document.documentElement.getAttribute("data-theme") === "light";
-
-function drawCircuit() {
-  ctx.clearRect(0, 0, W, H);
-  const lineColor = isLight() ? "rgba(15,20,32,0.08)" : "rgba(255,255,255,0.06)";
-  const nodeColor = isLight() ? "rgba(15,20,32,0.18)" : "rgba(255,255,255,0.18)";
-
-  ctx.strokeStyle = lineColor;
-  ctx.lineWidth = 1;
-  nodes.forEach(node => {
-    nearestNodes(node, 2).forEach(other => {
-      ctx.beginPath();
-      ctx.moveTo(node.x, node.y);
-      ctx.lineTo(other.x, node.y);
-      ctx.lineTo(other.x, other.y);
-      ctx.stroke();
-    });
   });
-
-  ctx.fillStyle = nodeColor;
-  nodes.forEach(n => {
-    ctx.beginPath();
-    ctx.arc(n.x, n.y, 2, 0, Math.PI * 2);
-    ctx.fill();
-  });
-
-  pulses.forEach((p, idx) => {
-    p.t += p.speed;
-    if (p.t >= 1) { pulses.splice(idx, 1); spawnPulse(); return; }
-    const x = p.start.x + (p.end.x - p.start.x) * p.t;
-    const y = p.start.y === p.end.y ? p.start.y : p.start.y + (p.end.y - p.start.y) * p.t;
-    const grad = ctx.createRadialGradient(x, y, 0, x, y, 7);
-    grad.addColorStop(0, "#ff8a3d");
-    grad.addColorStop(1, "rgba(255,138,61,0)");
-    ctx.fillStyle = grad;
-    ctx.beginPath();
-    ctx.arc(x, y, 7, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.fillStyle = "#4fd1ff";
-    ctx.beginPath();
-    ctx.arc(x, y, 2, 0, Math.PI * 2);
-    ctx.fill();
-  });
-
-  while (pulses.length < 10) spawnPulse();
-  requestAnimationFrame(drawCircuit);
-}
-
-resizeCanvas();
-window.addEventListener("resize", resizeCanvas);
-requestAnimationFrame(drawCircuit);
+}, { threshold: 0.2 });
+skillObserver.observe(skillsGrid);
 
 /* =========================================================
-   DATA — SERVICES
+   RENDER SERVICES
 ========================================================= */
-const SERVICES = [
-  { icon: "fa-code", title: "Web Development", desc: "Fast, responsive, modern websites built with clean HTML, CSS and JavaScript — from single landing pages to full multi-section sites." },
-  { icon: "fa-swatchbook", title: "Business Branding Design", desc: "Logos, color systems and visual identity that make a small business look established from day one." },
-  { icon: "fa-bolt", title: "Electrical Business Digital Solutions", desc: "Websites and digital presence for electrical & technical service businesses, built through REVO TECH SOLUTION." },
-  { icon: "fa-mobile-screen-button", title: "Mobile Shop Branding & Marketing", desc: "Storefront branding, product showcases and social media assets for mobile phone retailers, built through NEXA MOBILE." }
-];
+const servicesGrid = document.getElementById('servicesGrid');
+const serviceModal = document.getElementById('serviceModal');
 
-const servicesGrid = document.getElementById("servicesGrid");
-SERVICES.forEach((s, i) => {
-  const card = document.createElement("div");
-  card.className = "service-card glass-card";
-  card.setAttribute("data-aos", "fade-up");
-  card.setAttribute("data-aos-delay", i * 80);
-  card.innerHTML = `<div class="service-icon"><i class="fa-solid ${s.icon}"></i></div><h3>${s.title}</h3><p>${s.desc}</p>`;
+SERVICES.forEach((service, index) => {
+  const card = document.createElement('div');
+  card.className = 'service-card glass-card';
+  card.setAttribute('data-aos', 'fade-up');
+  card.setAttribute('data-aos-delay', index * 50);
+  card.innerHTML = `<i class="fa-solid ${service.icon}"></i><h3>${service.title}</h3><p>${service.desc}</p>`;
+  
+  card.addEventListener('click', function() {
+    document.getElementById('serviceModalIcon').className = 'fa-solid ' + service.icon;
+    document.getElementById('serviceModalTitle').textContent = service.title;
+    document.getElementById('serviceModalDesc').textContent = service.desc;
+    serviceModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    if (navigator.vibrate) navigator.vibrate(25);
+  });
+  
   servicesGrid.appendChild(card);
 });
 
-/* =========================================================
-   DATA — PROJECTS
-========================================================= */
-const PROJECTS = [
-  {
-    title: "REVO TECH SOLUTION", filter: "brand", thumb: "thumb-revo", icon: "fa-bolt",
-    desc: "Brand identity and web presence for my electrical & technology services business — built to turn visitors into service enquiries.",
-    tags: ["Branding", "Web Design", "Business"], demo: "#", github: "#"
-  },
-  {
-    title: "NEXA MOBILE", filter: "brand", thumb: "thumb-nexa", icon: "fa-mobile-screen-button",
-    desc: "Branding and digital marketing assets for my mobile phone sales & service shop, including product showcase pages.",
-    tags: ["Branding", "Marketing", "Business"], demo: "#", github: "#"
-  },
-  {
-    title: "Personal Portfolio", filter: "web", thumb: "thumb-folio", icon: "fa-user-astronaut",
-    desc: "This site — a single-file, dependency-light portfolio deployed on GitHub Pages with a dark/light theme system.",
-    tags: ["HTML/CSS/JS", "GitHub Pages"], demo: "#", github: "#"
-  },
-  {
-    title: "Landing Page Template", filter: "web", thumb: "thumb-land", icon: "fa-layer-group",
-    desc: "A reusable, responsive landing page template built for small businesses that need to launch quickly.",
-    tags: ["Template", "Responsive"], demo: "#", github: "#"
-  }
-];
+// Close service modal handlers
+function closeServiceModal() {
+  serviceModal.classList.remove('active');
+  document.body.style.overflow = '';
+}
 
+serviceModal.addEventListener('click', (e) => { 
+  if (e.target === serviceModal) closeServiceModal(); 
+});
+
+/* =========================================================
+   RENDER PROJECTS
+========================================================= */
 const projectsGrid = document.getElementById("projectsGrid");
-function renderProjects(filter = "all") {
+function renderProjects(filter = "all"){
   projectsGrid.innerHTML = "";
   PROJECTS.filter(p => filter === "all" || p.filter === filter).forEach((p, i) => {
     const card = document.createElement("div");
     card.className = "project-card glass-card";
     card.setAttribute("data-aos", "zoom-in");
-    card.setAttribute("data-aos-delay", (i % 2) * 100);
-    card.innerHTML = `
-      <div class="project-thumb ${p.thumb}"><i class="fa-solid ${p.icon}"></i></div>
-      <div class="project-body">
-        <h3>${p.title}</h3>
-        <p>${p.desc}</p>
-        <div class="project-tags">${p.tags.map(t => `<span>${t}</span>`).join("")}</div>
-        <div class="project-links">
-          <a href="${p.demo}" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo</a>
-          <a href="${p.github}" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> GitHub</a>
-        </div>
-      </div>`;
+    card.setAttribute("data-aos-delay", (i%3)*80);
+    card.innerHTML = `<div class="project-thumb"><i class="fa-solid ${p.icon}"></i></div><div class="project-body"><h3>${p.title}</h3><p>${p.desc}</p><div class="project-tags">${p.tags.map(t => `<span>${t}</span>`).join("")}</div></div>`;
+    card.addEventListener("click", () => openModal(p));
     projectsGrid.appendChild(card);
   });
   if (window.AOS) AOS.refreshHard();
@@ -257,77 +492,95 @@ document.querySelectorAll(".filter-btn").forEach(btn => {
   });
 });
 
-/* =========================================================
-   DATA — SKILLS
-========================================================= */
-const SKILLS = [
-  { name: "Frontend Development", level: 88 },
-  { name: "UI/UX Design", level: 78 },
-  { name: "GitHub & Deployment", level: 90 },
-  { name: "Business Branding", level: 82 },
-  { name: "Responsive Design", level: 92 },
-  { name: "Digital Marketing", level: 74 }
-];
+const projectModal = document.getElementById("projectModal");
 
-const skillsGrid = document.getElementById("skillsGrid");
-SKILLS.forEach((s, i) => {
-  const item = document.createElement("div");
-  item.className = "skill-item";
-  item.setAttribute("data-aos", "fade-up");
-  item.setAttribute("data-aos-delay", i * 60);
-  item.innerHTML = `
-    <div class="skill-top"><span>${s.name}</span><span class="skill-pct">${s.level}%</span></div>
-    <div class="skill-bar"><div class="skill-fill" data-level="${s.level}"></div></div>`;
-  skillsGrid.appendChild(item);
+function openModal(p){
+  document.getElementById("modalTitle").textContent = p.title;
+  document.getElementById("modalDesc").textContent = p.desc;
+  document.getElementById("modalTags").innerHTML = p.tags.map(t => `<span>${t}</span>`).join("");
+  projectModal.classList.add("active");
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  projectModal.classList.remove("active");
+  document.body.style.overflow = '';
+}
+
+projectModal.addEventListener("click", (e) => { 
+  if (e.target === projectModal) closeModal(); 
 });
 
-const skillObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.querySelectorAll(".skill-fill").forEach((fill, i) => {
-        setTimeout(() => { fill.style.width = fill.dataset.level + "%"; }, i * 60);
-      });
-      skillObserver.unobserve(entry.target);
-    }
+/* =========================================================
+   RENDER CERTIFICATES
+========================================================= */
+const certGallery = document.getElementById("certGallery");
+CERTS.forEach((c, i) => {
+  const card = document.createElement("div");
+  card.className = "cert-card glass-card";
+  card.setAttribute("data-aos", "fade-up");
+  card.setAttribute("data-aos-delay", i*60);
+  card.innerHTML = `<i class="fa-solid fa-award"></i><span>${c.title}</span><div class="cert-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i>&nbsp; View</div>`;
+  card.addEventListener("click", () => openLightbox(c));
+  certGallery.appendChild(card);
+});
+
+const lightbox = document.getElementById("lightbox");
+document.querySelectorAll('.timeline-card').forEach(card => {
+  card.addEventListener('click', () => {
+    const title = card.querySelector('h3').textContent;
+    const org = card.querySelector('.timeline-org').textContent;
+    const desc = card.querySelector('p:last-child').textContent;
+    const icon = card.getAttribute('data-icon') || 'fa-briefcase';
+    document.getElementById("lightboxContent").innerHTML = `<div class="lock-badge"><i class="fa-solid ${icon}"></i></div><h3>${title}</h3><p class="timeline-org" style="margin-bottom:10px;">${org}</p><p>${desc}</p>`;
+    lightbox.classList.add("active");
+    document.body.style.overflow = 'hidden';
+    if (navigator.vibrate) navigator.vibrate(20);
   });
-}, { threshold: 0.3 });
-skillObserver.observe(skillsGrid);
+});
 
-/* =========================================================
-   DATA — EXPERIENCE / TIMELINE
-========================================================= */
-const TIMELINE = [
-  { title: "Founder, REVO TECH SOLUTION", meta: "Ongoing", desc: "Running and marketing an electrical & technology services brand, from client outreach to digital presence." },
-  { title: "Founder, NEXA MOBILE", meta: "Ongoing", desc: "Operating a mobile phone sales & service business with a branded storefront and social media presence." },
-  { title: "Freelance Web Developer", meta: "Ongoing", desc: "Designing and building responsive websites and landing pages for individuals and small businesses." },
-  { title: "GitHub Pages Deployment", meta: "Ongoing", desc: "Hosting and maintaining production websites directly through GitHub Pages, including custom domains and asset optimization." }
-];
+function openLightbox(c){
+  document.getElementById("lightboxContent").innerHTML = `<div class="lock-badge"><i class="fa-solid fa-lock-open"></i></div><h3>${c.title}</h3><p>${c.org}</p><span class="verified-tag"><i class="fa-solid fa-shield-halved"></i>VERIFIED CREDENTIAL</span>`;
+  lightbox.classList.add("active");
+  document.body.style.overflow = 'hidden';
+}
 
-const timeline = document.getElementById("timeline");
-TIMELINE.forEach((t, i) => {
-  const item = document.createElement("div");
-  item.className = "timeline-item";
-  item.setAttribute("data-aos", "fade-up");
-  item.setAttribute("data-aos-delay", i * 80);
-  item.innerHTML = `<span class="timeline-meta">${t.meta}</span><h3>${t.title}</h3><p>${t.desc}</p>`;
-  timeline.appendChild(item);
+function closeLightbox() {
+  lightbox.classList.remove("active");
+  document.body.style.overflow = '';
+}
+
+lightbox.addEventListener("click", (e) => { 
+  if (e.target === lightbox) closeLightbox(); 
 });
 
 /* =========================================================
-   MAGNETIC BUTTONS + RIPPLE
+   MODAL ESCAPE-KEY HANDLING (consolidated)
+   One shared listener closes whichever modal is currently open,
+   instead of a separate document-level listener per modal.
+========================================================= */
+document.addEventListener('keydown', (e) => {
+  if (e.key !== 'Escape') return;
+  if (serviceModal.classList.contains('active')) closeServiceModal();
+  if (projectModal.classList.contains('active')) closeModal();
+  if (lightbox.classList.contains('active')) closeLightbox();
+});
+
+/* =========================================================
+   MAGNETIC BUTTONS
 ========================================================= */
 document.querySelectorAll(".magnetic").forEach(btn => {
   btn.addEventListener("mousemove", (e) => {
     const rect = btn.getBoundingClientRect();
-    const x = e.clientX - rect.left - rect.width / 2;
-    const y = e.clientY - rect.top - rect.height / 2;
-    btn.style.transform = `translate(${x * 0.15}px, ${y * 0.3}px)`;
+    const x = e.clientX - rect.left - rect.width/2;
+    const y = e.clientY - rect.top - rect.height/2;
+    btn.style.transform = `translate(${x*0.18}px, ${y*0.35}px)`;
   });
   btn.addEventListener("mouseleave", () => { btn.style.transform = "translate(0,0)"; });
 });
 
 document.querySelectorAll(".btn").forEach(btn => {
-  btn.addEventListener("click", function (e) {
+  btn.addEventListener("click", function(e){
     const rect = this.getBoundingClientRect();
     const ripple = document.createElement("span");
     ripple.className = "ripple";
@@ -340,20 +593,23 @@ document.querySelectorAll(".btn").forEach(btn => {
 });
 
 /* =========================================================
-   CONTACT FORM VALIDATION
-   No backend configured — shows a friendly message and points
-   to WhatsApp/email. Wire up EmailJS or your own endpoint by
-   replacing the try block below.
+   CONTACT FORM
 ========================================================= */
+if (window.emailjs && SITE_CONFIG.EMAILJS_PUBLIC_KEY && !SITE_CONFIG.EMAILJS_PUBLIC_KEY.startsWith("YOUR_")) {
+  emailjs.init(SITE_CONFIG.EMAILJS_PUBLIC_KEY);
+}
+
 const contactForm = document.getElementById("contactForm");
 const submitBtn = document.getElementById("submitBtn");
 const formStatus = document.getElementById("formStatus");
+let lastSubmit = 0;
 
-function showError(id, message) {
-  const input = document.getElementById(id);
+function showError(fieldId, message){
+  const input = document.getElementById(fieldId);
   const group = input.closest(".form-group");
-  const errorEl = document.getElementById("err-" + id.replace("f", "").toLowerCase());
-  if (message) {
+  const errKey = "err-" + fieldId.replace("f","").toLowerCase();
+  const errorEl = document.getElementById(errKey);
+  if (message){
     group.classList.add("invalid");
     if (errorEl) errorEl.textContent = message;
   } else {
@@ -369,34 +625,282 @@ contactForm.addEventListener("submit", async (e) => {
 
   const name = document.getElementById("fName").value.trim();
   const email = document.getElementById("fEmail").value.trim();
-  const subject = document.getElementById("fSubject").value.trim();
   const message = document.getElementById("fMessage").value.trim();
+  const phone = document.getElementById("fPhone").value.trim();
 
   let valid = true;
-  if (name.length < 2) { showError("fName", "Please enter your name"); valid = false; } else showError("fName", "");
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showError("fEmail", "Enter a valid email address"); valid = false; } else showError("fEmail", "");
-  if (subject.length < 2) { showError("fSubject", "Please add a short subject"); valid = false; } else showError("fSubject", "");
-  if (message.length < 10) { showError("fMessage", "Message should be at least 10 characters"); valid = false; } else showError("fMessage", "");
+  showError("fName", name.length < 2 ? (valid = false, "Enter your name") : "");
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  showError("fEmail", !emailOk ? (valid = false, "Enter a valid email") : "");
+  showError("fMessage", message.length < 10 ? (valid = false, "Message should be at least 10 characters") : "");
 
   if (!valid) return;
+
+  const now = Date.now();
+  if (now - lastSubmit < SITE_CONFIG.FORM_COOLDOWN_SECONDS * 1000) {
+    formStatus.textContent = "Please wait a few seconds.";
+    formStatus.className = "form-status error";
+    return;
+  }
+
+  const configured = window.emailjs && !SITE_CONFIG.EMAILJS_PUBLIC_KEY.startsWith("YOUR_");
+  if (!configured) {
+    formStatus.textContent = "Please reach out via WhatsApp or email directly.";
+    formStatus.className = "form-status error";
+    return;
+  }
 
   submitBtn.classList.add("loading");
   submitBtn.disabled = true;
 
-  await new Promise(res => setTimeout(res, 900));
-
-  const mailBody = encodeURIComponent(`${message}\n\n— ${name} (${email})`);
-  window.location.href = `mailto:${SITE_CONFIG.EMAIL}?subject=${encodeURIComponent(subject)}&body=${mailBody}`;
-
-  formStatus.textContent = "✅ Opening your email app to send this message.";
-  formStatus.className = "form-status success";
-  submitBtn.classList.remove("loading");
-  submitBtn.disabled = false;
-  contactForm.reset();
+  try {
+    await emailjs.send(SITE_CONFIG.EMAILJS_SERVICE_ID, SITE_CONFIG.EMAILJS_TEMPLATE_ID, {
+      from_name: name, from_email: email, reply_to: email, phone: phone, message: message, to_name: "Tharindu Dilshan"
+    });
+    formStatus.textContent = "✅ Message sent! I'll get back to you soon.";
+    formStatus.className = "form-status success";
+    contactForm.reset();
+    lastSubmit = now;
+  } catch (err) {
+    formStatus.textContent = "❌ Something went wrong. Please try WhatsApp.";
+    formStatus.className = "form-status error";
+  } finally {
+    submitBtn.classList.remove("loading");
+    submitBtn.disabled = false;
+  }
 });
 
 /* =========================================================
-   AOS INIT + YEAR
+   NVQ PROGRESS
 ========================================================= */
-if (window.AOS) AOS.init({ duration: 700, once: true, offset: 40, easing: "ease-out-cubic" });
+(function(){
+  const fill = document.getElementById('nvqProgressFill');
+  const label = document.getElementById('nvqProgressLabel');
+  if (!fill || !label) return;
+  const start = new Date('2024-01-01').getTime();
+  const end = new Date('2027-12-31').getTime();
+  const now = Date.now();
+  let pct = ((now - start) / (end - start)) * 100;
+  pct = Math.max(0, Math.min(100, pct));
+  fill.style.width = pct.toFixed(0) + '%';
+  label.textContent = pct >= 100 ? 'Completed' : pct.toFixed(0) + '% through the program';
+})();
+
+/* =========================================================
+   STAR RATING BAR
+========================================================= */
+(function(){
+  const bar = document.getElementById('starRatingBar');
+  if (!bar) return;
+  const stars = bar.querySelectorAll('.star-rating-icon');
+  const hiddenInput = document.getElementById('fbRating');
+  const label = document.getElementById('starRatingLabel');
+  const labels = { 1: 'Poor', 2: 'Below Average', 3: 'Average', 4: 'Good', 5: 'Excellent' };
+
+  function paint(value){
+    stars.forEach(s => s.classList.toggle('active', Number(s.dataset.value) <= value));
+  }
+  function setValue(value){
+    hiddenInput.value = value;
+    paint(value);
+    label.textContent = labels[value] || 'Tap to rate';
+  }
+
+  stars.forEach(star => {
+    star.addEventListener('click', () => setValue(Number(star.dataset.value)));
+    star.addEventListener('mouseenter', () => paint(Number(star.dataset.value)));
+    star.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setValue(Number(star.dataset.value)); }
+    });
+  });
+  bar.addEventListener('mouseleave', () => paint(Number(hiddenInput.value)));
+
+  setValue(5);
+})();
+
+/* =========================================================
+   FEEDBACK FORM
+========================================================= */
+const feedbackForm = document.getElementById("feedbackForm");
+if (feedbackForm) {
+  const fbSubmitBtn = document.getElementById("fbSubmitBtn");
+  const fbFormStatus = document.getElementById("fbFormStatus");
+  let fbLastSubmit = 0;
+
+  function showFbError(fieldId, message){
+    const input = document.getElementById(fieldId);
+    const group = input.closest(".form-group");
+    const errKey = "err-" + fieldId.replace("fb","fb").toLowerCase();
+    const errorEl = document.getElementById(errKey);
+    if (message){
+      group.classList.add("invalid");
+      if (errorEl) errorEl.textContent = message;
+    } else {
+      group.classList.remove("invalid");
+      if (errorEl) errorEl.textContent = "";
+    }
+  }
+
+  feedbackForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    fbFormStatus.textContent = "";
+    fbFormStatus.className = "form-status";
+
+    const name = document.getElementById("fbName").value.trim();
+    const rating = document.getElementById("fbRating").value;
+    const message = document.getElementById("fbMessage").value.trim();
+
+    let valid = true;
+    showFbError("fbName", name.length < 2 ? (valid = false, "Enter your name") : "");
+    showFbError("fbMessage", message.length < 5 ? (valid = false, "Please write your feedback") : "");
+    if (!valid) return;
+
+    const now = Date.now();
+    if (now - fbLastSubmit < SITE_CONFIG.FORM_COOLDOWN_SECONDS * 1000) {
+      fbFormStatus.textContent = "Please wait a few seconds.";
+      fbFormStatus.className = "form-status error";
+      return;
+    }
+
+    const configured = window.emailjs && !SITE_CONFIG.EMAILJS_PUBLIC_KEY.startsWith("YOUR_");
+    if (!configured) {
+      fbFormStatus.textContent = "Feedback form isn't connected yet.";
+      fbFormStatus.className = "form-status error";
+      return;
+    }
+
+    fbSubmitBtn.classList.add("loading");
+    fbSubmitBtn.disabled = true;
+
+    try {
+      await emailjs.send(SITE_CONFIG.EMAILJS_SERVICE_ID, SITE_CONFIG.EMAILJS_TEMPLATE_ID, {
+        from_name: name,
+        from_email: "no-reply@feedback.form",
+        reply_to: "no-reply@feedback.form",
+        phone: "",
+        message: "⭐".repeat(Number(rating)) + " Rating\n\n" + message,
+        to_name: "Tharindu Dilshan"
+      });
+      fbFormStatus.textContent = "✅ Thanks for your feedback!";
+      fbFormStatus.className = "form-status success";
+      feedbackForm.reset();
+      fbLastSubmit = now;
+    } catch (err) {
+      fbFormStatus.textContent = "❌ Something went wrong. Please try again.";
+      fbFormStatus.className = "form-status error";
+    } finally {
+      fbSubmitBtn.classList.remove("loading");
+      fbSubmitBtn.disabled = false;
+    }
+  });
+}
+
+/* =========================================================
+   VISIT COUNTER (device cookie based)
+========================================================= */
+(function(){
+  function getCookie(name){
+    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    return match ? match[2] : null;
+  }
+  function setCookie(name, value, days){
+    const d = new Date();
+    d.setTime(d.getTime() + days * 24 * 60 * 60 * 1000);
+    document.cookie = name + '=' + value + ';expires=' + d.toUTCString() + ';path=/';
+  }
+  let count = parseInt(getCookie('td_visit_count') || '0', 10);
+  count += 1;
+  setCookie('td_visit_count', count, 365);
+  const el = document.getElementById('visitCount');
+  if (el) el.textContent = count;
+})();
+
+/* =========================================================
+   ABOUT POPUP - TOUCH & CLICK HANDLERS
+========================================================= */
+(function(){
+  const aboutPopup = document.getElementById('aboutPopup');
+  const aboutPopupBox = document.querySelector('.about-popup-box');
+  const aboutTriggers = document.querySelectorAll('.about-popup-trigger');
+  
+  // About section content
+  const aboutData = {
+    'Mission': {
+      icon: 'fa-bullseye',
+      text: 'Deliver electrical work that is safe, precise and built to last. Every installation reflects my commitment to quality and reliability.'
+    },
+    'Vision': {
+      icon: 'fa-eye',
+      text: 'Grow from field electrician into industrial automation. I\'m building expertise in modern automation systems and advanced electrical control technologies.'
+    },
+    'Safety-First': {
+      icon: 'fa-shield-halved',
+      text: 'Every task starts with isolation, testing and procedure. Safety isn\'t negotiable — it\'s the foundation of professional electrical work.'
+    },
+    'Continuous Learning': {
+      icon: 'fa-arrows-spin',
+      text: 'Formal NVQ training paired with on-the-job experience. I\'m committed to staying current with industry standards and emerging technologies.'
+    }
+  };
+  
+  // Open popup
+  function openAboutPopup(title) {
+    const data = aboutData[title];
+    if (!data) return;
+    
+    const titleEl = document.getElementById('aboutPopupTitle');
+    const textEl = document.getElementById('aboutPopupText');
+    const iconEl = document.getElementById('aboutPopupIcon');
+    
+    titleEl.textContent = title;
+    textEl.textContent = data.text;
+    iconEl.className = 'fa-solid ' + data.icon;
+    
+    aboutPopup.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  
+  // Close popup
+  function closeAboutPopup() {
+    aboutPopup.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  
+  // Event listeners - touch and click
+  aboutTriggers.forEach(trigger => {
+    trigger.addEventListener('click', function(e) {
+      e.preventDefault();
+      const title = this.getAttribute('data-title');
+      openAboutPopup(title);
+    });
+    
+    trigger.addEventListener('touchend', function(e) {
+      e.preventDefault();
+      const title = this.getAttribute('data-title');
+      openAboutPopup(title);
+    });
+  });
+  
+  // Close on overlay click
+  aboutPopup.addEventListener('click', function(e) {
+    if (e.target === this) {
+      closeAboutPopup();
+    }
+  });
+  
+  // Close on Escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && aboutPopup.classList.contains('active')) {
+      closeAboutPopup();
+    }
+  });
+})();
+
+/* =========================================================
+   AOS + YEAR
+========================================================= */
+if (window.AOS) {
+  const isMobileAOS = window.matchMedia('(max-width: 768px)').matches;
+  AOS.init({ duration: isMobileAOS ? 450 : 700, once: true, offset: 50, easing: "ease-out-cubic" });
+}
 document.getElementById("year").textContent = new Date().getFullYear();
